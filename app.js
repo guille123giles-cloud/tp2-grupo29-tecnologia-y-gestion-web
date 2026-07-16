@@ -9,6 +9,7 @@ const contenido = document.getElementById('contenido-dinamico');
 // ==========================================
 const TMDB_API_KEY = '671bd8f1936f7bb24d046995dedc5263';
 const STRAPI_URL = 'https://gestionweb.frlp.utn.edu.ar/api/grupo29-peliculas';
+const STRAPI_TOKEN = '8c457faa9e1976eda8492d0c470848626d5e7255008b189a8774819632c1e1c675acd69a6eaca57d7771e1c03e2b93b457f250d8007e6dcda81493b7199c7f76de93730cf2496417a057999bf78d10ddc89b11ecaa0e8787dc3abe97c79f69fde29cd958c93e7eb928419506215d60338d45ed8a9b71704b6c09a2050a64f86f';
 
 // Variable global para almacenar la instancia del gráfico y destruirla al recargar
 let chartInstance = null;
@@ -101,7 +102,8 @@ btnCargar.addEventListener('click', () => {
                 const responseStrapi = await fetch(STRAPI_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${STRAPI_TOKEN}`
                     },
                     body: JSON.stringify(payload)
                 });
@@ -154,7 +156,11 @@ btnVisualizar.addEventListener('click', async () => {
 
     try {
         // 1. Obtener datos de Strapi (GET)
-        const responseStrapi = await fetch(STRAPI_URL);
+        const responseStrapi = await fetch(STRAPI_URL, {
+            headers: {
+                'Authorization': `Bearer ${STRAPI_TOKEN}`
+            }
+        });
         const dataStrapi = await responseStrapi.json();
         
         // Strapi v4 devuelve los registros dentro del array .data, y sus atributos en .attributes
