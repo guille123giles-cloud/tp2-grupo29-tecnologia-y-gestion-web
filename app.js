@@ -155,8 +155,8 @@ btnVisualizar.addEventListener('click', async () => {
     `;
 
     try {
-        // 1. Obtener datos de Strapi (GET)
-        const responseStrapi = await fetch(STRAPI_URL, {
+        // 1. Obtener datos de Strapi (GET) - Traemos hasta 100 registros para tener buena muestra
+        const responseStrapi = await fetch(`${STRAPI_URL}?pagination[limit]=100`, {
             headers: {
                 'Authorization': `Bearer ${STRAPI_TOKEN}`
             }
@@ -172,11 +172,21 @@ btnVisualizar.addEventListener('click', async () => {
         }
 
         // 2. Extraer Nombres y Popularidad para el Gráfico
-        // Tomamos las últimas 10 guardadas para que el gráfico no sea ilegible
-        const ultimasPeliculas = peliculas.slice(-10);
+        // Filtramos películas duplicadas (por si se sincronizó varias veces la misma fecha)
+        const peliculasUnicas = [];
+        const titulos = new Set();
+        peliculas.forEach(p => {
+            if (!titulos.has(p.Titulo)) {
+                titulos.add(p.Titulo);
+                peliculasUnicas.push(p);
+            }
+        });
+
+        // Ordenamos por popularidad de mayor a menor y tomamos el Top 10
+        const top10 = peliculasUnicas.sort((a, b) => b.Popularidad - a.Popularidad).slice(0, 10);
         
-        const labels = ultimasPeliculas.map(p => p.Titulo);
-        const popularidades = ultimasPeliculas.map(p => p.Popularidad);
+        const labels = top10.map(p => p.Titulo);
+        const popularidades = top10.map(p => p.Popularidad);
 
         // Ocultamos el loading y mostramos el contenedor del canvas
         document.getElementById('chart-loading').style.display = 'none';
