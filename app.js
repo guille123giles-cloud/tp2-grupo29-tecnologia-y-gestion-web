@@ -175,8 +175,8 @@ btnVisualizar.addEventListener('click', async () => {
         // Tomamos las últimas 10 guardadas para que el gráfico no sea ilegible
         const ultimasPeliculas = peliculas.slice(-10);
         
-        const labels = ultimasPeliculas.map(p => p.attributes.Titulo);
-        const popularidades = ultimasPeliculas.map(p => p.attributes.Popularidad);
+        const labels = ultimasPeliculas.map(p => p.Titulo);
+        const popularidades = ultimasPeliculas.map(p => p.Popularidad);
 
         // Ocultamos el loading y mostramos el contenedor del canvas
         document.getElementById('chart-loading').style.display = 'none';
