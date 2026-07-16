@@ -38,7 +38,7 @@ A continuación, se detallan las tareas obligatorias realizadas para el cumplimi
   - `Titulo` (Tipo Text).
   - `Fecha_Estreno` (Tipo Date).
   - `Popularidad` (Tipo Decimal Number).
-  Se ajustaron los permisos del rol "Public" habilitando los métodos `create` y `find`.
+  Se configuró la autenticación en el código mediante el envío del Token de API (Authorization: Bearer) provisto por la cátedra para interactuar de forma segura con los endpoints.
 
 ### 2.5 Bosquejo y Desarrollo del Frontend
 - **Participantes:** Puertas Bautista, Olivan Jeremias.
